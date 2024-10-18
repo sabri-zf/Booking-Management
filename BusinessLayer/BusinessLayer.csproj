@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F390D6D6-3C14-430D-A9E0-B418C2E1D889}</ProjectGuid>
+    <ProjectGuid>{A30F485A-5B15-40F3-867B-F87335748C3D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BusinessLayer</RootNamespace>
@@ -41,13 +41,34 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Booking Commponent\ClsBooking.cs" />
+    <Compile Include="Booking Commponent\ClsStatus.cs" />
+    <Compile Include="ClsAdmins.cs" />
+    <Compile Include="ClsClanderDate.cs" />
+    <Compile Include="ClsDepartments.cs" />
+    <Compile Include="ClsPayments.cs" />
+    <Compile Include="ClsReviews.cs" />
+    <Compile Include="ClsUsers.cs" />
+    <Compile Include="DateInfo.cs" />
+    <Compile Include="DetailsPeople\ClsContactsInfo.cs" />
+    <Compile Include="DetailsPeople\ClsCountries.cs" />
+    <Compile Include="DetailsPeople\ClsPaymentsInfo.cs" />
+    <Compile Include="DetailsPeople\ClsPerson.cs" />
+    <Compile Include="Interface\IAdmin.cs" />
+    <Compile Include="Interface\IPerson.cs" />
+    <Compile Include="Interface\IUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service Commponent\Clscategories.cs" />
+    <Compile Include="Service Commponent\ClsLocations.cs" />
+    <Compile Include="Service Commponent\ClsPrices.cs" />
+    <Compile Include="Service Commponent\ClsServices.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DataLayer\DataLayer.csproj">
+    <ProjectReference Include="B:\C#_project_information\Test&amp;Trainig using C#\Booking\DataLayer\DataLayer.csproj">
       <Project>{f7ca4ef1-a3bd-4967-a5d3-8c8b8ed14c40}</Project>
       <Name>DataLayer</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

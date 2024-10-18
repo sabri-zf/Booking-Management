@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LogicLayer.Interface
+namespace BusinessLayer.Interface
 {
     public interface IAdmin
     {
@@ -12,19 +12,19 @@ namespace LogicLayer.Interface
 
         int? PersonID { get; set; }
 
-        string? UserName { get; set; }
-        string? Password { get; set; }
+        string UserName { get; set; }
+        string Password { get; set; }
 
         int? DepartmentID { get; set; }
         // ClsDepartments DepartmentInfo {get;set;}
 
-        string? profile_Pictrue{ get; set; }
+        string profile_Pictrue { get; set; }
 
-        string? Emargency_Contact { get; set; }
+        string Emargency_Contact { get; set; }
 
-        byte Permission {  get; set; }
+        byte Permission { get; set; }
 
-        bool? IsActive { get; set; }
+        bool IsActive { get; set; }
 
         bool Save();
 

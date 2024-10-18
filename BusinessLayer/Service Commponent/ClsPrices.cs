@@ -1,24 +1,24 @@
-﻿using LogicLayer.PeopleModule;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LogicLayer.Service_Commponent
+namespace BusinessLayer.Service_Commponent
 {
     public class ClsPrices
     {
-        enum Mode { Add , Edit}
+
+        enum Mode { Add, Edit }
         Mode? _mode = null;
-        public int? ID {  get; private set; }
+        public int? ID { get; private set; }
 
-        public decimal Amount { get;set; }
-        public int? ServiceID { get;set; }
-        public ClsService? ServiceInfo { get; set; }
+        public decimal Amount { get; set; }
+        public int? ServiceID { get; set; }
+        public ClsServices ServiceInfo { get; set; }
 
-        public ClsPrices() 
+        public ClsPrices()
         {
             this.ID = null;
             this.Amount = 0;
@@ -36,10 +36,10 @@ namespace LogicLayer.Service_Commponent
 
             this._mode = Mode.Edit;
 
-            this.ServiceInfo =ClsService.FindByID(serviceID);
+            this.ServiceInfo = ClsServices.FindByID(serviceID);
         }
 
-        public static ClsPrices? FindByService(int serviceID)
+        public static ClsPrices FindByService(int serviceID)
         {
             return null;
         }
@@ -67,7 +67,7 @@ namespace LogicLayer.Service_Commponent
             return false;
         }
 
-        public DataTable? GetEachPrice()
+        public DataTable GetEachPrice()
         {
             return null;
         }
