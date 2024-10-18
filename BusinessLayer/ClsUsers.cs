@@ -1,5 +1,6 @@
-﻿using LogicLayer.Interface;
-using LogicLayer.PeopleModule;
+﻿using BusinessLayer.DetailsPeople;
+using BusinessLayer.Interface;
+using DataLayer;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -7,23 +8,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LogicLayer
+namespace BusinessLayer
 {
     public class ClsUsers:IUser
     {
-        enum Mode { Add, Edit}
 
-        Mode? _mode = null;
+        enum Mode { Add, Edit }
+
+        Mode _mode;
         public int? ID { get; private set; }
 
-        public int? PersonID { get;set; }
-        public ClsPerson? PersonInfo { get; set; }
+        public int? PersonID { get; set; }
+        public ClsPerson PersonInfo { get; set; }
 
         public string UserName { get; set; }
 
         public string Password { get; set; }
 
-        public bool? IsActive { get; set; }
+        public bool IsActive { get; set; }
 
 
         public ClsUsers()
@@ -36,7 +38,7 @@ namespace LogicLayer
             this._mode = Mode.Add;
         }
 
-        private ClsUsers(int iD, int personID,string userName, string password, bool isActive)
+        private ClsUsers(int iD, int personID, string userName, string password, bool isActive)
         {
             this._mode = Mode.Edit;
             this.ID = iD;
@@ -50,47 +52,112 @@ namespace LogicLayer
         }
 
 
-       static bool Delete(int ID)
+        public static bool DeleteByID(int ID)
         {
-            return false;
+            return Users.DeleteUserByID(ID);
         }
 
-        public static ClsUsers? FindByUserName(string UserName)
+        public static bool DeleteByPersonID(int PersonID)
         {
+            return Users.DeleteUserByPersonID(PersonID);
+        }
+
+        public static bool DeleteByUserName(string UserName)
+        {
+            return Users.DeleteUserByUserName(UserName);
+        }
+
+        public static ClsUsers FindByUserName(string UserName)
+        {
+            int ID = -1 , PersonID = -1 ;
+            string Password = string.Empty;
+            bool isActive = false;  
+
+            if(Users.FindByUserName(ref ID,ref PersonID,UserName,ref Password,ref isActive))
+            {
+                return new ClsUsers(ID,PersonID,UserName,Password,isActive);
+            }
+
             return null;
         }
-        public static ClsUsers? FindByUserNameAndPassword(string UserName, string Password)
+        public static ClsUsers FindByUserNameAndPassword(string UserName, string Password)
         {
+            int ID = -1, PersonID = -1;
+            //string Password = string.Empty;
+            bool isActive = false;
+
+            if (Users.FindByUserNameAndPassword(ref ID, ref PersonID, UserName,  Password, ref isActive))
+            {
+                return new ClsUsers(ID, PersonID, UserName, Password, isActive);
+            }
+
             return null;
         }
 
-        public static ClsUsers? FindByID(int ID)
+        public static ClsUsers FindByID(int ID)
         {
+            int PersonID = -1;
+            string Password = string.Empty,UserName = string.Empty;
+            bool isActive = false;
+
+            if (Users.FindByID( ID, ref PersonID, ref UserName, ref Password, ref isActive))
+            {
+                return new ClsUsers(ID, PersonID, UserName, Password, isActive);
+            }
+
             return null;
         }
 
-        public static ClsUsers? FindByPersonID(int PersonID)
+        public static ClsUsers FindByPersonID(int PersonID)
         {
+            int ID = -1;
+            string Password = string.Empty, UserName = string.Empty;
+            bool isActive = false;
+
+            if (Users.FindByPersonID(ref ID,  PersonID, ref UserName, ref Password, ref isActive))
+            {
+                return new ClsUsers(ID, PersonID, UserName, Password, isActive);
+            }
+
             return null;
         }
 
         public bool Save()
         {
+
+            switch (_mode)
+            {
+                case Mode.Add:
+                    if (_AddNew())
+                    {
+                        _mode = Mode.Edit;
+                        return true;
+                    }
+                    return false;
+                    case Mode.Edit:
+                    return _Update();
+            }
             return false;
         }
 
         private bool _AddNew()
         {
-            return true;
+            this.ID = Users.AddNewUser(this.PersonID, this.UserName, this.Password,this.IsActive);
+            return (this.ID != null && this.ID > 0);
         }
         private bool _Update()
         {
-            return false;
+            return Users.UpdateUser(this.ID,this.PersonID,this.UserName,this.Password,this.IsActive);
         }
 
-        public static DataTable? GetCollectionUser()
+        public static async Task<DataTable> GetCollectionUserAsync()
         {
-            return null;
+            return await Users.GetEachUsersAsync();
+        }
+
+        public static DataTable GetCollectionUserSync()
+        {
+            return  Users.GetEachUsersSync();
         }
 
     }

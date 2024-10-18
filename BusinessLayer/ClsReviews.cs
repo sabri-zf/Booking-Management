@@ -1,21 +1,22 @@
-﻿using System;
+﻿using DataLayer;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LogicLayer
+namespace BusinessLayer
 {
     public class ClsReviews
     {
-        enum Mode { Add ,Edit}
+        enum Mode { Add, Edit }
         Mode? _mode = null;
 
-        public int? ID { get; private set;}
-        public int? UserID { get;set;}
-        public bool ReviewStatus {get; set;}
-        public string? Comment { get; set;}
+        public int? ID { get; private set; }
+        public int? UserID { get; set; }
+        public bool ReviewStatus { get; set; }
+        public string Comment { get; set; }
 
 
 
@@ -28,7 +29,7 @@ namespace LogicLayer
             this._mode = Mode.Add;
         }
 
-        private ClsReviews(int iD, int userID, bool reviewStatus, string? comment)
+        private ClsReviews(int iD, int userID, bool reviewStatus, string comment)
         {
             this._mode = Mode.Edit;
             this.ID = iD;
@@ -37,40 +38,83 @@ namespace LogicLayer
             this.Comment = comment;
         }
 
-        public static ClsReviews? FindByID(int iD)
+        public static ClsReviews FindByID(int iD)
         {
+            int UserID = -1;
+            bool Status = false;
+            string Comment = string.Empty;
+
+            if(Reviews.FindByID(iD ,ref UserID,ref Status,ref Comment))
+            {
+                return new ClsReviews(iD,UserID,Status,Comment);
+            }
+
             return null;
         }
 
-        public static ClsReviews? FindByUserID(int iD)
+        public static ClsReviews FindByUserID(int UserID)
         {
+            int ID = -1;
+            bool Status = false;
+            string Comment = string.Empty;
+
+            if (Reviews.FindByUserID(ref ID,  UserID, ref Status, ref Comment))
+            {
+                return new ClsReviews(ID, UserID, Status, Comment);
+            }
+
             return null;
+
         }
 
 
-        public static bool DeleteReview(int iD)
+        public static bool DeleteReviewByID(int ID)
         {
-            return false;
+            return Reviews.DeleteByID(ID);
+        }
+        public static bool DeleteReviewByUserID(int UserID)
+        {
+            return Reviews.DeleteByID(UserID);
         }
 
         private bool _AddNew()
         {
-            return true;
+            this.ID = Reviews.AddNewReview(this.UserID,this.ReviewStatus,this.Comment);
+
+            return (this.ID != null || this.ID > 0);
         }
 
         private bool _Update()
         {
-            return true;
+
+            return Reviews.UpdateReview(this.ID,this.UserID,this.ReviewStatus,this.Comment);
         }
 
         public bool Save()
         {
-            return true;
+            switch (_mode)
+            {
+                case Mode.Add:
+                    if (_AddNew())
+                    {
+                        _mode = Mode.Edit;
+                        return true;
+                    }
+                    return false;
+                    case Mode.Edit:
+                    return _Update();
+            }
+            return false;
         }
 
-        public static DataTable? GetEachReviews()
+        public static async Task<DataTable> GetEachReviewsAsync()
         {
-            return null;
+            return await Reviews.GetEeachReviewsAsync();
+        }
+
+        public static DataTable GetEachReviewsSync()
+        {
+            return  Reviews.GetEeachReviewsSync();
         }
 
     }
