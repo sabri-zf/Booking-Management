@@ -4,14 +4,14 @@
 namespace BusinessLayer
 {
 
-    public class DateInfo
+    public class ClsDateInfo
     {
 
         private byte[] DefaultDayOfMonth = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
         public DateTime DateStar { get; set; }
         public DateTime DateEnd { get; set; }
 
-        public DateInfo(DateTime DateStar, DateTime DateEnd)
+        public ClsDateInfo(DateTime DateStar, DateTime DateEnd)
         {
 
             if (CheckIsDayinRangeDayOfMonth(DateStar) && CheckIsDayinRangeDayOfMonth(DateEnd)) {

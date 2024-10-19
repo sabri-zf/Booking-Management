@@ -1,4 +1,5 @@
-﻿using DataLayer;
+﻿using BusinessLayer.EnventHandler;
+using DataLayer;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -48,7 +49,7 @@ namespace BusinessLayer.Service_Commponent
             this.ServiceProvider = string.Empty;
             this.AdditionalNotes = string.Empty;
             this.Capacity = 0;
-            this.Discount = null;
+            this.Discount = 0;
 
             this._mode = Mode.Add;
         }
@@ -146,6 +147,32 @@ namespace BusinessLayer.Service_Commponent
         public async Task<DataTable> GetEachService()
         {
             return await Services.GetListOfServicesAsync();
+        }
+
+
+
+        public void Subscribe(NoticeNewService publishNotice )
+        {
+            publishNotice.OnServiceOpen += GetNewNotification;
+        }
+
+        public void UnSubscribe(NoticeNewService publishNotice)
+        {
+            publishNotice.OnServiceOpen -= GetNewNotification;
+        }
+
+        private static void GetNewNotification(object obj ,NewOfferEventHandler e)
+        {
+            // write Any Code To Notification New service
+
+            Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            Console.WriteLine("\n-- New Service N :");
+            Console.WriteLine($"Type OF Service   : {e.TypeOfOfferService}");
+            Console.WriteLine($"Service Name      : {e.ServiceName}");
+            Console.WriteLine($"Service Provider  : {e.ServiceProvider}");
+            Console.WriteLine($"Publish Date      : {e.PublishDate}");
+            Console.WriteLine("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+           
         }
     }
 }

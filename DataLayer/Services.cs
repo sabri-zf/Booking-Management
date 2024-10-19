@@ -75,8 +75,8 @@ namespace DataLayer
                 {
                     connection.Open();
 
-                    string query = @"insert into Services values (@CategoryID,@ServiceName,@Description,@LocationID,@DurationTime,
-                                                                  @ServiceProvider,@Capacity,@Notes,@Discount)
+                    string query = @"insert into Services values (@CategoryID,@ServiceName,@Description,@LocationID,
+                                                                  @DurationTime,@ServiceProvider,@Capacity,@Notes,@Discount)
                                      Select Scope_identity();";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
