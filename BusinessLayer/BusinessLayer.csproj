@@ -50,6 +50,7 @@
     <Compile Include="ClsReviews.cs" />
     <Compile Include="ClsUsers.cs" />
     <Compile Include="ClsDateInfo.cs" />
+    <Compile Include="ClsUtility.cs" />
     <Compile Include="DetailsPeople\ClsContactsInfo.cs" />
     <Compile Include="DetailsPeople\ClsCountries.cs" />
     <Compile Include="DetailsPeople\ClsPaymentsInfo.cs" />

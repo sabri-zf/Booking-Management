@@ -86,7 +86,7 @@ namespace BusinessLayer
             //string Password = string.Empty;
             bool isActive = false;
 
-            if (Users.FindByUserNameAndPassword(ref ID, ref PersonID, UserName,  Password, ref isActive))
+            if (Users.FindByUserNameAndPassword(ref ID, ref PersonID, UserName, ClsUtility.ComputeHash(Password), ref isActive))
             {
                 return new ClsUsers(ID, PersonID, UserName, Password, isActive);
             }
@@ -142,12 +142,12 @@ namespace BusinessLayer
 
         private bool _AddNew()
         {
-            this.ID = Users.AddNewUser(this.PersonID, this.UserName, this.Password,this.IsActive);
+            this.ID = Users.AddNewUser(this.PersonID, this.UserName,ClsUtility.ComputeHash(this.Password),this.IsActive);
             return (this.ID != null && this.ID > 0);
         }
         private bool _Update()
         {
-            return Users.UpdateUser(this.ID,this.PersonID,this.UserName,this.Password,this.IsActive);
+            return Users.UpdateUser(this.ID,this.PersonID,this.UserName, ClsUtility.ComputeHash(this.Password), this.IsActive);
         }
 
         public static async Task<DataTable> GetCollectionUserAsync()
@@ -158,6 +158,12 @@ namespace BusinessLayer
         public static DataTable GetCollectionUserSync()
         {
             return  Users.GetEachUsersSync();
+        }
+
+
+        public static bool IsExistUser(string UserName,string Password)
+        {
+            return Users.IsExistUser(UserName, ClsUtility.ComputeHash(Password));
         }
 
     }

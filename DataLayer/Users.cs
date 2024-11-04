@@ -446,5 +446,51 @@ namespace DataLayer
             return Table;
         }
 
+
+        public static bool IsExistUser(string UserName , string Password )
+        {
+
+
+            bool IsExist = false;
+
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["BookingMangement_DB"].ConnectionString))
+                {
+                    connection.Open();
+
+                    string query = @"select Find = 1 from Users where UserName = @UserName and password = @Password and IsActive = 1";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue(@"UserName", UserName);
+                        command.Parameters.AddWithValue(@"Password", Password);
+                        //command.Parameters.AddWithValue(@"IsActive", IsActive);
+
+
+                        object value = command.ExecuteScalar();
+
+                        if (value != null)
+                        {
+                            IsExist = true;
+                        }
+
+                      
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                IsExist = false;
+            }
+
+
+
+            return IsExist;
+
+        }
+
     }
 }
