@@ -193,6 +193,24 @@ namespace BusinessLayer.Booking_Commponent
             return await Booking.GetListsOFBookingAsync();
         }
 
+        public static IEnumerable<DataRow> GetListsOFBooking()
+        {
+            IEnumerable<DataRow> bookings = Booking.GetListsOFBookingSync().AsEnumerable();
+
+            return bookings;
+        }
+        public static DataTable GetEachBookingSync()
+        {
+            return  Booking.GetListsOFBookingSync();
+        }
+
+
+        public override string ToString()
+        {
+            return $"ID : {this.ID} - UserName : {this.UserInfo.UserName} - Date Start : {this.DateStart}\n" +
+                $" - Date End : {this.DateEnd} - Service Name : {this.ServiceInfo.ServiceName} - Reservation Day : {this.IntialReservationDay}\n" +
+                $" - intial Total Amount : {this.IntialTotalDueAmount.ToString("C")} - Notes : {this.Notes} - Is Pay : {(this.PaymentID != -1 || this.PaymentID != null)}";
+        }
 
     }
 }

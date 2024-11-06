@@ -318,7 +318,7 @@ namespace DataLayer
                     {
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
-                            if (await reader.ReadAsync())
+                            if (reader.HasRows)
                             {
                                 List.Load(reader);
                             }

@@ -350,6 +350,42 @@ namespace DataLayer
             return List;
         }
 
+        public static DataTable GetListsOFBookingSync()
+        {
+            DataTable List = new DataTable();
+
+            try
+            {
+
+                using (SqlConnection Connection = new SqlConnection(ConfigurationManager.ConnectionStrings
+                  ["BookingMangement_DB"].ConnectionString))
+                {
+                     Connection.Open();
+
+                    string query = @"select * from Booking";
+
+                    using (SqlCommand Command = new SqlCommand(query, Connection))
+                    {
+                        using (SqlDataReader Reader = Command.ExecuteReader())
+                        {
+
+                            if ( Reader.Read())
+                            {
+                                List.Load(Reader);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return List;
+            }
+
+            return List;
+        }
+
 
         public static bool UpdateStatus(int? ID, byte statusID)
         {

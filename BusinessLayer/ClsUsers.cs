@@ -166,5 +166,17 @@ namespace BusinessLayer
             return Users.IsExistUser(UserName, ClsUtility.ComputeHash(Password));
         }
 
+
+        public override string ToString()
+        {
+            return $"\n First Name : {PersonInfo.FirstName}" +
+                   $"\n Last Name  : { PersonInfo.LastName} " +
+                   $"\n Age        : {PersonInfo.Age} " +
+                   $"\n Country    : {PersonInfo.CountryInfo.CountryName}" +
+                   $"\n Birth Day  : {PersonInfo.BirthDay.ToString()}"+
+                   $"\n User Name  : {UserName} " +
+                   $"\n Password   : {ClsUtility.HidePassword(Password)}" +
+                   $"\n Active     : {IsActive}";
+        }
     }
 }

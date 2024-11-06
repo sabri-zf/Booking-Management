@@ -57,6 +57,7 @@
     <Compile Include="DetailsPeople\ClsPerson.cs" />
     <Compile Include="EnventHandler\NewOfferEventHandler.cs" />
     <Compile Include="EnventHandler\NoticeNewService.cs" />
+    <Compile Include="Extensions\BookingExtension.cs" />
     <Compile Include="Interface\IAdmin.cs" />
     <Compile Include="Interface\IPerson.cs" />
     <Compile Include="Interface\IUser.cs" />

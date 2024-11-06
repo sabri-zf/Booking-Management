@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BusinessLayer
@@ -26,6 +28,26 @@ namespace BusinessLayer
         }
 
 
+        public static string HidePassword(string OriginPassword)
+        {
+            string NewPassword = string.Empty;
+
+            for (byte i = 0; i < OriginPassword.Length; i++)
+            {
+
+                if (i > OriginPassword.Length - 3)
+                {
+                    NewPassword += OriginPassword[i];
+                }
+                else
+                {
+                    NewPassword += '*';
+                }
+            }
+
+            return NewPassword;
+        }
+      
        
     }
 }

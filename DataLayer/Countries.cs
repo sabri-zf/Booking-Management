@@ -24,7 +24,7 @@ namespace DataLayer
                 using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["BookingMangement_DB"].ConnectionString))
                 {
 
-                    string query = @"select * from Countries where  countryID = @ID";
+                    string query = @"select * from Countries where  CountryID = @ID";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
@@ -34,7 +34,7 @@ namespace DataLayer
 
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
-                            if (reader.HasRows)
+                            if (reader.Read())
                             {
 
                                 FillGaps = true;

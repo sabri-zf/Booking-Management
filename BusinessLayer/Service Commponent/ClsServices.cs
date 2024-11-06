@@ -144,7 +144,7 @@ namespace BusinessLayer.Service_Commponent
         /// Get The List Of Services from Data Base And Return
         /// </summary>
         /// <returns> All Recored if the Result True ,Otherwise Return Empty if False</returns>
-        public async Task<DataTable> GetEachService()
+        public static async Task<DataTable> GetEachService()
         {
             return await Services.GetListOfServicesAsync();
         }
@@ -173,6 +173,20 @@ namespace BusinessLayer.Service_Commponent
             Console.WriteLine($"Publish Date      : {e.PublishDate}");
             Console.WriteLine("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
            
+        }
+
+
+        public override string ToString()
+        {
+            return $"\nCatigory Name     : {CategoryInfo.CategoryName} " +
+                   $"\nService Name      : {ServiceName} " +
+                   $"\nService Provder   : {ServiceProvider}" +
+                   $"\nService Location  : {LocationInfo.CountryInfo.CountryName}" +
+                   $"\nCapacity          : {Capacity}" +
+                   $"\nDescription       : {Description}"+
+                   $"\nDiscount          : {Discount}"+
+                   $"\nAddtional Note    : {AdditionalNotes}";
+
         }
     }
 }
