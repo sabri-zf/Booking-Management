@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -53,20 +54,22 @@ namespace BusinessLayer.DetailsPeople
 
             if (PaymentsInformation.FindByID(ID, ref cardNumber, ref cardHolderName, ref expirationDate, ref CVV_Code))
             {
-                return new ClsPaymentsInfo(ID, cardNumber, cardHolderName, expirationDate, CVV_Code);
+                string privateKey = Environment.GetEnvironmentVariable(ID.ToString() + " Private");
+                return new ClsPaymentsInfo(ID, ClsUtility.DecryptoRSA(cardNumber, privateKey), ClsUtility.DecryptoRSA(cardHolderName, privateKey), expirationDate, ClsUtility.DecryptoRSA(CVV_Code, privateKey));
             }
             return null;
         }
 
         public static ClsPaymentsInfo FindByCardHolderName(string CardHolderName)
         {
-            int? ID = null;
+            int ? ID = null;
             string cardNumber = string.Empty, CVV_Code = string.Empty;
             DateTime expirationDate = DateTime.Now;
 
             if (PaymentsInformation.FindByHolderName(ref ID, ref cardNumber, CardHolderName, ref expirationDate, ref CVV_Code))
             {
-                return new ClsPaymentsInfo(ID, cardNumber, CardHolderName, expirationDate, CVV_Code);
+                string privateKey = Environment.GetEnvironmentVariable(ID.ToString() + " Private");
+                return new ClsPaymentsInfo(ID,ClsUtility.DecryptoRSA(cardNumber,privateKey),ClsUtility.DecryptoRSA( CardHolderName,privateKey), expirationDate,ClsUtility.DecryptoRSA( CVV_Code,privateKey));
             }
             return null;
         }
@@ -93,13 +96,29 @@ namespace BusinessLayer.DetailsPeople
         }
         private bool _AddNew()
         {
-            this.ID = PaymentsInformation.AddNewPaymentInfo(CardNumber, CardHolderName, ExpirationDate, CVV_Code);
+            using (RSACryptoServiceProvider rsa = new RSACryptoServiceProvider())
+            {
 
-            return (this.ID != null || this.ID <= 0);
+                string publicKey = rsa.ToXmlString(false);
+                string privateKey = rsa.ToXmlString(true);
+                this.ID = PaymentsInformation.AddNewPaymentInfo(ClsUtility.EncryptoRSA(CardNumber,publicKey), ClsUtility.EncryptoRSA(CardHolderName,publicKey),ExpirationDate, ClsUtility.EncryptoRSA(CVV_Code, publicKey));
+
+                if((this.ID.HasValue || this.ID > 0))
+                {
+
+                    ClsUtility.WriteDataToEnvironmentVar(this.ID.ToString()+" Private", privateKey);
+                    ClsUtility.WriteDataToEnvironmentVar(this.ID.ToString()+" Public", publicKey);
+                    return true;
+
+                }
+
+                return false;
+            }
         }
         private bool _Update()
         {
-            return PaymentsInformation.UpdatePaymentInfo(this.ID, this.CardNumber, this.CardHolderName, this.ExpirationDate, this.CVV_Code);
+            string publicKey = Environment.GetEnvironmentVariable(this.ID.ToString() + " Public");
+            return PaymentsInformation.UpdatePaymentInfo(this.ID,ClsUtility.EncryptoRSA(CardNumber, publicKey), ClsUtility.EncryptoRSA(CardHolderName, publicKey), ExpirationDate, ClsUtility.EncryptoRSA(CVV_Code, publicKey));
         }
 
 

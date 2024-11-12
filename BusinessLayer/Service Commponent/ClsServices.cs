@@ -176,17 +176,22 @@ namespace BusinessLayer.Service_Commponent
         }
 
 
-        public override string ToString()
+        public void PrintService()
         {
-            return $"\nCatigory Name     : {CategoryInfo.CategoryName} " +
+            Console.WriteLine ($"\rCatigory Name     : {CategoryInfo.CategoryName} " +
                    $"\nService Name      : {ServiceName} " +
                    $"\nService Provder   : {ServiceProvider}" +
                    $"\nService Location  : {LocationInfo.CountryInfo.CountryName}" +
+                   $"\nService Duration  : {DurationTime}" +
                    $"\nCapacity          : {Capacity}" +
-                   $"\nDescription       : {Description}"+
-                   $"\nDiscount          : {Discount}"+
-                   $"\nAddtional Note    : {AdditionalNotes}";
+                   $"\nDescription       : {(string.IsNullOrEmpty(Description) ? "N/A" : Description)}" +
+                   $"\nDiscount          : {Discount}" +
+                   $"\nAddtional Note    : {(string.IsNullOrEmpty(AdditionalNotes) ? "N/A" : AdditionalNotes)}");
+        }
 
+        public override string ToString()
+        {
+            return null;
         }
     }
 }

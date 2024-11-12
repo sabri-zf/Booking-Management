@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataLayer;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -39,7 +40,7 @@ namespace BusinessLayer.Service_Commponent
             this.ServiceInfo = ClsServices.FindByID(serviceID);
         }
 
-        public static ClsPrices FindByService(int serviceID)
+        public static ClsPrices FindByService(int? serviceID)
         {
             return null;
         }
@@ -70,6 +71,12 @@ namespace BusinessLayer.Service_Commponent
         public DataTable GetEachPrice()
         {
             return null;
+        }
+
+
+        public static decimal PriceOfService(int? serviceID)
+        {
+            return Prices.PriceOfService(serviceID);
         }
     }
 }

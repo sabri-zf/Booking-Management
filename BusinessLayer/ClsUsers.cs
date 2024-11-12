@@ -173,7 +173,7 @@ namespace BusinessLayer
                    $"\n Last Name  : { PersonInfo.LastName} " +
                    $"\n Age        : {PersonInfo.Age} " +
                    $"\n Country    : {PersonInfo.CountryInfo.CountryName}" +
-                   $"\n Birth Day  : {PersonInfo.BirthDay.ToString()}"+
+                   $"\n Birth Day  : {PersonInfo.BirthDay.ToShortDateString()}"+
                    $"\n User Name  : {UserName} " +
                    $"\n Password   : {ClsUtility.HidePassword(Password)}" +
                    $"\n Active     : {IsActive}";

@@ -47,6 +47,7 @@
     <Compile Include="ContactsInformation.cs" />
     <Compile Include="Countries.cs" />
     <Compile Include="Departments.cs" />
+    <Compile Include="Prices.cs" />
     <Compile Include="ServiceLocations.cs" />
     <Compile Include="Payments.cs" />
     <Compile Include="PaymentsInformation.cs" />

@@ -424,5 +424,107 @@ namespace DataLayer
             return (RowEffected > 0);
         }
 
+
+        public static short CheckingCapacity(int? ServiceID)
+        {
+
+            if(ServiceID <= 0 || ServiceID == null) return 0;
+
+            short ExistCapacity = 0;
+
+            try
+            {
+                using (SqlConnection Connection = new SqlConnection(ConfigurationManager.ConnectionStrings
+                 ["BookingMangement_DB"].ConnectionString))
+                {
+                    Connection.Open();
+
+                    string query = @"select count(*) as LoseCapacity From Booking where ServiceID = @ServiceID and StatusID Not in(4,5);";
+
+                    using (SqlCommand Command = new SqlCommand(query, Connection))
+                    {
+
+                        Command.Parameters.AddWithValue(@"ServiceID", ServiceID);
+
+
+                        object value = Command.ExecuteScalar();
+
+                        if(value != null && short.TryParse(value.ToString(),out short Existing))
+                            {
+                            ExistCapacity = Existing;
+                        }
+                    }
+                }
+
+            }
+            catch ( SqlException sex)
+            {
+                Console.WriteLine(sex.Message);
+                return 0;
+            }catch(Exception ex)
+            {
+                Console.WriteLine (ex.Message);
+                return 0;
+            }
+
+            return ExistCapacity;
+        }
+
+
+        public static List<DateTime> CheckLastBooking(int? ServiceID)
+        {
+
+            if (ServiceID <= 0 || ServiceID == null) return null;
+
+            List<DateTime> list = new List<DateTime>();
+
+            try
+            {
+                using (SqlConnection Connection = new SqlConnection(ConfigurationManager.ConnectionStrings
+                 ["BookingMangement_DB"].ConnectionString))
+                {
+                    Connection.Open();
+
+                    string query = @"select top 1 * From Booking where ServiceID = @ServiceID
+                                     order by BookingID desc";
+                    using (SqlCommand Command = new SqlCommand(query, Connection))
+                    {
+
+                        Command.Parameters.AddWithValue(@"ServiceID", ServiceID);
+
+
+                        using (SqlDataReader reader = Command.ExecuteReader())
+                        {
+
+                            if (reader.Read())
+                            {
+
+                                list.Add((DateTime)reader["DateStart"]);
+                                list.Add((DateTime)reader["DateEnd"]);
+
+                            }
+                            else
+                            {
+                                return null;
+                            }
+                        }
+                    }
+                }
+
+            }
+            catch (SqlException sex)
+            {
+                Console.WriteLine(sex.Message);
+                return null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
+
+            return list;
+        }
+
     }
 }

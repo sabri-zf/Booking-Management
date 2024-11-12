@@ -205,11 +205,35 @@ namespace BusinessLayer.Booking_Commponent
         }
 
 
+        public static short TotalExistCapacity(int? ServiceId)
+        {
+            return Booking.CheckingCapacity(ServiceId);
+        }
+
+        public static bool checkTheDateOFLastBooking(ClsServices Item)
+        {
+            // get data from database and compare between both the date start and date end 
+
+            return true;
+        }
+
+
+        public static List<DateTime> CheckLastBooked(int? Service)
+        {
+            return Booking.CheckLastBooking(Service);
+        }
+
         public override string ToString()
         {
-            return $"ID : {this.ID} - UserName : {this.UserInfo.UserName} - Date Start : {this.DateStart}\n" +
-                $" - Date End : {this.DateEnd} - Service Name : {this.ServiceInfo.ServiceName} - Reservation Day : {this.IntialReservationDay}\n" +
-                $" - intial Total Amount : {this.IntialTotalDueAmount.ToString("C")} - Notes : {this.Notes} - Is Pay : {(this.PaymentID != -1 || this.PaymentID != null)}";
+            return $"- ID : {this.ID}\n" +
+                   $"- UserName : {this.UserInfo.UserName}\n" +
+                   $"- Date Start : {this.DateStart}\n" +
+                   $"- Date End : {this.DateEnd}\n" +
+                   $"- Service Name : {this.ServiceInfo.ServiceName}\n" +
+                   $"- Reservation Day : {this.IntialReservationDay}\n" +
+                   $"- intial Total Amount : {this.IntialTotalDueAmount.ToString("C")}\n" +
+                   $"- Notes : {this.Notes}\n" +
+                   $"- Is Pay : {(this.PaymentID != -1 || this.PaymentID != null)}";
         }
 
     }

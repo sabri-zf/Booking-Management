@@ -29,7 +29,9 @@ namespace BusinessLayer
                 }
             }
 
-                throw new ArgumentException("The Date Range Is Not Valid....");
+            throw new NotImplementedException();
+
+           //throw new ArgumentException("The Date Range Is Not Valid....");
         }
 
 
@@ -57,6 +59,33 @@ namespace BusinessLayer
         }
 
 
+
+        public static bool CompareBetweenDates(DateTime getReservationDateOfUser,DateTime getEndDateOfLastReservation)
+        {
+            sbyte CheckCompare = (sbyte)DateTime.Compare(getReservationDateOfUser, getEndDateOfLastReservation);
+            return CheckCompare == -1  || CheckCompare == 0;
+        }
+
+
+        public static short DiffBetweenDates(DateTime DateStart, DateTime DateEnd,bool includeCurrentDay=false)
+        {
+            short Diff = 0;
+            while (DateStartBeforDateEnd(DateStart, DateEnd))
+            {
+
+                //immurable Struct 
+                DateStart = DateStart.AddDays(1);
+                Diff++;
+
+            }
+
+            return (includeCurrentDay) ? ++Diff : Diff;
+        }
+
+        private static bool DateStartBeforDateEnd(DateTime dateStart, DateTime dateEnd)
+        {
+            return (dateStart.Year < dateEnd.Year) ? true : ((dateStart.Year == dateEnd.Year) ? ((dateStart.Month < dateEnd.Month) ? true : ((dateStart.Month == dateEnd.Month) ? (dateStart.Day < dateEnd.Day) : false)) : false);
+        }
     }
 
 

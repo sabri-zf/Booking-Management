@@ -23,14 +23,16 @@ namespace booking_Management
         {
 
 
-            //await ClsUtility.watchTime();
 
-            //Console.WriteLine("hello");
+            //Console.WriteLine(DateTime.Compare(new DateTime(2024, 10, 25), new DateTime(2024, 10, 24)));
 
 
-            
-        
-           StartProgram();
+            //Console.WriteLine(ClsDateInfo.DiffBetweenDates(new DateTime(2023, 10, 21), new DateTime(2023, 10, 23),true));
+
+
+
+            Console.SetCursorPosition(0, 0);
+          StartProgram();
 
             Console.ReadKey();
         

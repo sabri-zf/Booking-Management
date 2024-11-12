@@ -100,5 +100,13 @@ namespace BusinessLayer.Service_Commponent
         {
             return ServiceCategories.GetListOfCategoriesSync();
         }
+
+
+        public static string GetCategoryName(int ID)
+        {
+            
+                return ServiceCategories.GetCategoryName(ID);
+            
+        }
     }
 }
